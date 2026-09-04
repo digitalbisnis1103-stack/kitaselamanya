@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>kitaselamanya</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html,body{
+width:100%;
+height:100%;
+overflow:hidden;
+font-family:'Poppins',sans-serif;
+background:black;
+color:white;
+}
+
+/* VIDEO BG */
+
+.bg-video{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+object-fit:cover;
+z-index:-5;
+filter:brightness(0.25) saturate(1.2);
+}
+
+/* OVERLAY */
+
+.overlay{
+position:fixed;
+inset:0;
+background:
+linear-gradient(
+to bottom,
+rgba(40,0,0,.45),
+rgba(10,0,0,.92)
+);
+z-index:-4;
+}
+
+/* VHS */
+
+.vhs{
+position:fixed;
+inset:0;
+pointer-events:none;
+background:
+repeating-linear-gradient(
+to bottom,
+rgba(255,255,255,.03) 0px,
+rgba(255,255,255,.03) 1px,
+transparent 1px,
+transparent 3px
+);
+mix-blend-mode:soft-light;
+animation:vhsMove .2s infinite;
+z-index:999;
+}
+
+@keyframes vhsMove{
+0%{
+transform:translateY(0);
+}
+100%{
+transform:translateY(2px);
+}
+}
+
+/* LOVE FLOATING */
+
+.love-float{
+position:fixed;
+font-size:20px;
+pointer-events:none;
+animation:loveFall linear infinite;
+opacity:.8;
+z-index:3;
+filter:drop-shadow(0 0 10px rgba(255,0,80,.7));
+}
+
+@keyframes loveFall{
+
+0%{
+transform:
+translateY(-10vh)
+translateX(0)
+rotate(0deg);
+opacity:0;
+}
+
+10%{
+opacity:1;
+}
+
+100%{
+transform:
+translateY(110vh)
+translateX(40px)
+rotate(360deg);
+opacity:0;
+}
+
+}
+
+/* PAGE */
+
+.page{
+position:absolute;
+width:100%;
+height:100%;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+padding:20px;
+text-align:center;
+opacity:0;
+pointer-events:none;
+transition:1s;
+}
+
+.page.active{
+opacity:1;
+pointer-events:auto;
+}
+
+/* TITLE */
+
+.title{
+font-family:'Playfair Display',serif;
+font-size:52px;
+margin-bottom:20px;
+color:#ffd6d6;
+text-shadow:
+0 0 10px rgba(255,80,80,.5),
+0 0 30px rgba(255,0,0,.4);
+}
+
+.subtitle{
+opacity:.85;
+margin-bottom:40px;
+color:#ffe6e6;
+max-width:600px;
+}
+
+/* LETTER */
+
+.letter{
+width:320px;
+height:220px;
+background:rgba(120,0,0,.18);
+border:1px solid rgba(255,180,180,.2);
+backdrop-filter:blur(12px);
+border-radius:20px;
+position:relative;
+cursor:pointer;
+transition:.5s;
+box-shadow:
+0 0 40px rgba(255,0,0,.2),
+0 0 100px rgba(255,0,0,.08);
+}
+
+.letter:hover{
+transform:scale(1.05);
+}
+
+.letter::before{
+content:'';
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+clip-path:polygon(0 0,50% 50%,100% 0);
+background:rgba(255,255,255,.08);
+border-radius:20px;
+}
+
+.letter-text{
+position:absolute;
+bottom:25px;
+width:100%;
+font-size:20px;
+letter-spacing:2px;
+}
+
+/* PIN */
+
+.pin-box{
+display:flex;
+gap:10px;
+margin-bottom:30px;
+}
+
+.pin-input{
+width:60px;
+height:70px;
+border:none;
+outline:none;
+background:rgba(255,255,255,.08);
+border:1px solid rgba(255,180,180,.2);
+border-radius:15px;
+text-align:center;
+font-size:30px;
+color:white;
+backdrop-filter:blur(10px);
+}
+
+/* BUTTON */
+
+.btn{
+padding:14px 35px;
+border:none;
+border-radius:30px;
+background:
+linear-gradient(
+45deg,
+#ff4d6d,
+#b30021
+);
+color:white;
+font-weight:600;
+cursor:pointer;
+transition:.3s;
+box-shadow:
+0 0 20px rgba(255,0,60,.4);
+}
+
+.btn:hover{
+transform:scale(1.07);
+box-shadow:
+0 0 40px rgba(255,0,60,.7);
+}
+
+/* SPOTIFY */
+
+.spotify-wrapper{
+position:relative;
+width:90%;
+max-width:420px;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.spotify-glow{
+position:absolute;
+width:320px;
+height:320px;
+background:
+radial-gradient(
+circle,
+rgba(255,0,80,.25),
+transparent 70%
+);
+filter:blur(20px);
+z-index:0;
+animation:pulse 4s ease infinite;
+}
+
+@keyframes pulse{
+0%{
+transform:scale(1);
+opacity:.6;
+}
+50%{
+transform:scale(1.2);
+opacity:1;
+}
+100%{
+transform:scale(1);
+opacity:.6;
+}
+}
+
+.spotify-box{
+width:100%;
+backdrop-filter:blur(12px);
+border-radius:25px;
+overflow:hidden;
+background:rgba(80,0,0,.25);
+border:1px solid rgba(255,180,180,.15);
+box-shadow:
+0 0 60px rgba(255,0,0,.15),
+0 0 120px rgba(255,0,80,.08);
+position:relative;
+z-index:2;
+animation:spotifyFloat 4s ease-in-out infinite;
+}
+
+@keyframes spotifyFloat{
+0%{
+transform:translateY(0px);
+}
+50%{
+transform:translateY(-10px);
+}
+100%{
+transform:translateY(0px);
+}
+}
+
+/* GALLERY */
+
+.gallery{
+display:flex;
+gap:20px;
+overflow-x:auto;
+padding:20px;
+width:100%;
+justify-content:center;
+}
+
+.memory{
+position:relative;
+}
+
+.memory img{
+width:220px;
+height:320px;
+object-fit:cover;
+border-radius:20px;
+transition:.5s;
+box-shadow:
+0 0 30px rgba(255,0,0,.2);
+border:2px solid rgba(255,255,255,.08);
+}
+
+.memory img:hover{
+transform:scale(1.05);
+}
+
+.caption{
+margin-top:10px;
+font-size:14px;
+opacity:.8;
+color:#ffd6d6;
+}
+
+/* END */
+
+.end-box{
+max-width:700px;
+padding:30px;
+border-radius:25px;
+background:rgba(120,0,0,.15);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.08);
+box-shadow:
+0 0 50px rgba(255,0,0,.12);
+}
+
+.end-text{
+font-size:40px;
+font-family:'Playfair Display',serif;
+line-height:1.5;
+color:#ffe6e6;
+text-shadow:
+0 0 20px rgba(255,0,0,.4);
+margin-bottom:20px;
+}
+
+.birthday-message{
+font-size:18px;
+line-height:1.8;
+opacity:.9;
+color:#ffdede;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.title{
+font-size:38px;
+}
+
+.letter{
+width:280px;
+height:200px;
+}
+
+.gallery{
+justify-content:flex-start;
+}
+
+.memory img{
+width:180px;
+height:260px;
+}
+
+.end-text{
+font-size:30px;
+}
+
+}
+
+/* PAGE 5 - PENUTUP */
+#page5 {
+  overflow-y: auto;
+  overflow-x: hidden;
+  justify-content: flex-start;
+  padding: 30px 20px 45px;
+  -webkit-overflow-scrolling: touch;
+}
+
+#page5 .end-box {
+  width: 100%;
+  max-width: 420px;
+  margin: auto;
+  padding: 28px 22px;
+  text-align: center;
+}
+
+#page5 .end-text {
+  font-family: 'Baloo 2', cursive;
+  font-size: clamp(28px, 8vw, 38px);
+  font-weight: 700;
+  line-height: 1.2;
+  color: #ffffff;
+  margin-bottom: 22px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+#page5 .birthday-message {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(13px, 3.5vw, 15px);
+  font-weight: 400;
+  line-height: 1.9;
+  letter-spacing: 0.1px;
+  color: #ffffff;
+  text-align: left;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-shadow: 0 1px 5px rgba(0,0,0,0.12);
+}
+
+#page5 .btn {
+  margin-top: 25px;
+  margin-bottom: 10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- VIDEO BG -->
+
+<video autoplay muted loop class="bg-video">
+<source src="https://cdn.coverr.co/videos/coverr-rain-on-window-1564844978924?download=1080p" type="video/mp4">
+</video>
+
+<div class="overlay"></div>
+<div class="vhs"></div>
+
+<!-- AUDIO -->
+
+<audio id="bgMusic" autoplay loop>
+  <source src="birthday.mp3" type="audio/mpeg">
+</audio>
+
+<!-- PAGE 1 -->
+
+<section class="page active" id="page1">
+
+<h1 class="title">A Letter For You ❤️</h1>
+
+<p class="subtitle">
+Someone sent you a memory full of love...
+</p>
+
+<div class="letter" onclick="openLetter()">
+<div class="letter-text">OPEN 💌</div>
+</div>
+
+</section>
+
+<!-- PAGE 2 -->
+
+<section class="page" id="page2">
+
+<h1 class="title">we anivversary</h1>
+
+<div class="pin-box">
+
+<input maxlength="1" class="pin-input">
+<input maxlength="1" class="pin-input">
+<input maxlength="1" class="pin-input">
+<input maxlength="1" class="pin-input">
+
+</div>
+
+<button class="btn" onclick="checkPin()">
+Unlock
+</button>
+
+<p id="wrongText" style="margin-top:20px;color:#ffb3b3;"></p>
+
+</section>
+
+<!-- PAGE 3 -->
+
+<section class="page" id="page3">
+
+<h1 class="title">Your Song ❤️</h1>
+
+<p class="subtitle">
+Every song reminds me of you.
+</p>
+
+<div class="spotify-wrapper">
+
+<div class="spotify-glow"></div>
+
+<div class="spotify-box">
+
+
+<iframe style="border-radius:20px"
+src="https://open.spotify.com/embed/track/2EzpehYQJaWhncAVFnukQR?utm_source=generator"
+width="100%"
+height="352"
+frameBorder="0"
+allowfullscreen=""
+allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+loading="lazy">
+</iframe>
+
+</div>
+</div>
+
+<br>
+
+<button class="btn" onclick="nextPage(4)">
+Continue
+</button>
+
+</section>
+
+<!-- PAGE 4 -->
+
+<section class="page" id="page4">
+
+<h1 class="title">Our Memories 📸</h1>
+
+<div class="gallery">
+
+<div class="memory">
+<img src="foto1.jpg">
+<div class="caption">backstreet</div>
+</div>
+
+<div class="memory">
+<img src="foto2.jpg">
+<div class="caption">first date</div>
+</div>
+
+<div class="memory">
+<img src="foto3.jpg">
+<div class="caption">we are dating</div>
+</div>
+
+<div class="memory">
+<img src="foto4.jpg">
+<div class="caption">first concert</div>
+</div>
+
+</div>
+
+<br>
+
+<button class="btn" onclick="nextPage(5)">
+Final Message
+</button>
+
+</section>
+
+
+<!-- PAGE 5 -->
+
+<section class="page" id="page5">
+
+  <div class="end-box">
+
+    <div class="end-text">
+      haii bebb, 
+    </div>
+
+    <div class="birthday-message">
+
+      akuu tauu kamu sekarang mungkin capee samaa akuu.
+      aku bener bener minta maaff yyaa, dari awal aku udah
+      hancurin kepercayaan kamu ke akuu.
+
+      <br><br>
+
+      akuu minta maaff yyaa sayaangg.
+      tapii jangan pernah nyerah buat perjuangin hubungan kitaa
+      yaa bebb.
+
+      <br><br>
+
+      aku bener bener sayang kamuu.
+      aku ga bullshit beb, ini bener bener serius.
+
+      <br><br>
+
+      bebb kita berjuang teruss yya sayaangg.
+
+      <br><br>
+
+      i lovee youu soo muchh 
+
+    </div>
+
+    <br>
+
+    <button class="btn" onclick="location.reload()">
+      Replay
+    </button>
+
+  </div>
+
+</section>
+
+</section>
+
+<script>
+
+/* LOVE FLOATING */
+
+const loveIcons = ['❤️','💖','💕','💘','💗'];
+
+for(let i=0;i<40;i++){
+
+let love = document.createElement('div');
+
+love.classList.add('love-float');
+
+love.innerHTML =
+loveIcons[Math.floor(Math.random()*loveIcons.length)];
+
+love.style.left = Math.random()*100 + 'vw';
+
+love.style.animationDuration =
+5 + Math.random()*10 + 's';
+
+love.style.fontSize =
+15 + Math.random()*25 + 'px';
+
+love.style.opacity = Math.random();
+
+document.body.appendChild(love);
+
+}
+
+/* PAGE */
+
+function nextPage(page){
+
+document.querySelectorAll('.page')
+.forEach(p=>p.classList.remove('active'));
+
+document.getElementById('page'+page)
+.classList.add('active');
+
+}
+
+/* OPEN LETTER */
+
+function openLetter(){
+
+nextPage(2);
+
+}
+
+/* PIN */
+
+function checkPin(){
+
+let inputs =
+document.querySelectorAll('.pin-input');
+
+let pin = '';
+
+inputs.forEach(input=>{
+pin += input.value;
+});
+
+if(pin === '2603'){
+
+nextPage(3);
+
+}else{
+
+document.getElementById('wrongText')
+.innerText = 'Wrong memory...';
+
+navigator.vibrate?.(300);
+
+}
+
+}
+
+/* TYPING SOUND */
+
+const typingSound =
+document.getElementById('typingSound');
+
+document.querySelectorAll('.pin-input')
+.forEach(input=>{
+
+input.addEventListener('input',()=>{
+
+typingSound.currentTime = 0;
+typingSound.play();
+
+});
+
+});
+
+const bgMusic = document.getElementById("bgMusic");
+
+bgMusic.volume = 0.5;
+
+// Coba putar otomatis
+bgMusic.play().catch(() => {
+  // Browser memblokir autoplay sebelum ada interaksi.
+  // Musik akan dicoba lagi saat pengguna menyentuh halaman.
+  document.addEventListener("click", () => {
+    bgMusic.play();
+  }, { once: true });
+
+  document.addEventListener("touchstart", () => {
+    bgMusic.play();
+  }, { once: true });
+});
+
+</script>
+
+</body>
+</html>
